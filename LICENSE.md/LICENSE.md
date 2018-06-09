@@ -1,0 +1,23 @@
+#Loads the data set.
+library(readxl)
+titanic_original <- read_excel("Springboard/titanic_original.xls")
+View(titanic_original)
+
+#Loads dplyr and tidyr
+library("dplyr", lib.loc="~/R/win-library/3.5")
+library("tidyr", lib.loc="~/R/win-library/3.5")
+
+#Replaces NA in the "embarked" column with 'S'
+titanic_original$embarked[is.na(titanic_original$embarked)] <- 'S'
+
+#Finds the average age of passengers, and replaces NA in the "age" column with that average
+titanic_original$age[is.na(titanic_original$age)] <- mean(titanic_original$age, na.rm = TRUE)
+
+#Replaces missing values in the "boat" column with 'None'
+titanic_original$boat[is.na(titanic_original$boat)] <- 'None'
+
+#Creates a new column
+titanic_original$has_cabin_number = ifelse(is.na(titanic_original$cabin) == TRUE, 0, 1)
+
+#Exports the clean CSV
+write.csv(titanic_original, "titanic_clean.csv")
